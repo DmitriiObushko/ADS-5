@@ -1,34 +1,46 @@
-// Copyright 2021 NNTU-CS
 #ifndef INCLUDE_TSTACK_H_
 #define INCLUDE_TSTACK_H_
+
 #include <string>
+
 template<typename T, int size>
 class TStack {
 private:
     T arr[100];
-    int highest;
+    int top;
+
 public:
-    TStack() : highest(-1) {}
+    TStack() :top(-1) {}
+
     void push(T value) {
-        if (!isFull())
-            arr[++highest] = value;
-        else
-            throw std::string("Full");
+        if (isFull()) {
+            throw std::string("Stack is full");
+        }
+        else {
+            arr[++top] = value;
+        }
     }
-    T get() const {
-        return arr[highest];
+
+    const T& pop() {
+        if (isEmpty()) {
+            throw std::string("Stack is empty");
+        }
+        else {
+            return arr[top--];
+        }
     }
-    T pop() {
-        if (isEmpty())
-            throw std::string("Empty");
-        else
-            return arr[highest--];
+
+    bool isEmpty()const {
+        return top == -1;
     }
-    bool isEmpty() const {
-        return highest == -1;
+
+    bool isFull()const {
+        return top == size - 1;
     }
-    bool isFull() const {
-        return highest == size - 1;
+
+    const T& get()const {
+        return arr[top];
     }
 };
+
 #endif  // INCLUDE_TSTACK_H_
